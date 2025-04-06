@@ -59,17 +59,31 @@ def check_info_quantity(quantity_to_cart):
 def update_cart(item_to_cart, quantity_to_cart):
     # print(quantity_to_cart)
     # print(item_to_cart)
+    # while True:
     cart_items.update({item_to_cart: quantity_to_cart})
     product_prices.update({item_to_cart: create_price()})
 
-    add_more = input("Do you wish to add more items ('Yes')? ").lower()
+    print(product_prices)
+    print(cart_items)
+    add_more()
+    # add_more = input("Do you wish to add more items ('Yes')? ").lower()
 
+    # if add_more == "yes":
+    #     add_item()
+    #     add_quantity()
+    #     update_cart(item_to_cart, quantity_to_cart)
+    # else:
+    #     break
+
+
+def add_more():
+    add_more = input("Do you wish to add more items ('Yes')? ").lower()
     if add_more == "yes":
         add_item()
         add_quantity()
+        update_cart(item_to_cart, quantity_to_cart)
     else:
-        pass
-
+        print("Closing Cart")
 # ------------------------- Running Calculation ------------------------------- #
 
 
@@ -107,6 +121,7 @@ cart_items = {
 
 # ------------------------------ Add Items ------------------------------- #
 def add_item():
+    global item_to_cart
     while True:
         item_to_cart = input("Add name of item to cart: ").lower()  # "avocado"
         if re.fullmatch('[a-zA-Z ]+', item_to_cart):
@@ -120,6 +135,7 @@ def add_item():
 
 
 def add_quantity():
+    global quantity_to_cart
     while True:
         quantity_to_cart = input("Quantity: ")  # 5
         print(f'check_info_quantity: {quantity_to_cart}')
