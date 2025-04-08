@@ -1,5 +1,4 @@
 
-
 # ------------------------------ Explanation ---------------------------------- #
 # Bonus ideas:
 # ------------
@@ -18,10 +17,11 @@
 # 4. Ask if you want to add more products to the cart
 # 4.1 If yes, return to the beginning
 # 4.2 If not, output a summary
-# ------------------------------ Adding to Cart ---------------------------------- #
+
+# ------------------------------ General ---------------------------------- #
+
 import random
 import re
-# TEST!
 
 
 def create_price():
@@ -29,63 +29,39 @@ def create_price():
     return round(x, 2)
 
 
-def check_info_item(item_to_cart):
-    # while True:
-    if re.search('[a-zA-Z]', item_to_cart):
-        print(f'check_info_item: {item_to_cart}')
-        print(f'check_info_item: {type(item_to_cart)}')
-        # break
-        pass
-    else:
-        print("not a valid item.")
-        add_item()
-        # break
+# ------------------------------ Add Items and Quantity------------------------------- #
+
+def add_item():
+    global item_to_cart
+    while True:
+        item_to_cart = input(
+            "Add name of item to cart, to finsh, write 'done': ").lower()  # "avocado"
+        if re.fullmatch('[a-zA-Z ]+', item_to_cart):
+            return item_to_cart
+        else:
+            print("not a valid item.")
 
 
-def check_info_quantity(quantity_to_cart):
-    # while True:
-    print(f'check_info_quantity: {quantity_to_cart}')
-    print(f'check_info_quantity: {type(quantity_to_cart)}')
-    if quantity_to_cart.isnumeric():
-        quantity_to_cart = int(quantity_to_cart)
-        print(f'check_info_quantity_after_int: {quantity_to_cart}')
-        print(f'check_info_quantity_after_int: {type(quantity_to_cart)}')
-        return quantity_to_cart
-    else:
-        print("not a valid number.")
-        add_quantity()
-        # break
+def add_quantity():
+    global quantity_to_cart
+    while True:
+        quantity_to_cart = input("Quantity: ")  # 5
+        if quantity_to_cart.isnumeric():
+            quantity_to_cart = int(quantity_to_cart)
+            return quantity_to_cart
+        else:
+            print("not a valid number.")
+
+# ------------------------- Update cart with items ------------------------------- #
 
 
 def update_cart(item_to_cart, quantity_to_cart):
-    # print(quantity_to_cart)
-    # print(item_to_cart)
-    # while True:
     cart_items.update({item_to_cart: quantity_to_cart})
     product_prices.update({item_to_cart: create_price()})
-
     print(product_prices)
     print(cart_items)
-    # add_more()
-    # add_more = input("Do you wish to add more items ('Yes')? ").lower()
 
-    # if add_more == "yes":
-    #     add_item()
-    #     add_quantity()
-    #     update_cart(item_to_cart, quantity_to_cart)
-    # else:
-    #     break
-
-
-# def add_more():
-#     add_more = input("Do you wish to add more items ('Yes')? ").lower()
-#     if add_more == "yes":
-#         add_item()
-#         add_quantity()
-#         update_cart(item_to_cart, quantity_to_cart)
-#     else:
-#         print("Closing Cart")
-# ------------------------- Running Calculation ------------------------------- #
+# ------------------------- Calculation ------------------------------- #
 
 
 def calculate_cart_total(cart_items, product_prices):
@@ -95,10 +71,8 @@ def calculate_cart_total(cart_items, product_prices):
     """
     total = 0
     for product, quantity in cart_items.items():
-        # print(type(product))
-        # print(type(quantity))
         total += quantity * product_prices.get(product, 0)
-    return total
+    return round(total, 2)
 
 # ---------------------------- DB Product ------------------------------- #
 
@@ -119,44 +93,12 @@ cart_items = {
     "bread": 3
 }
 
-
-# ------------------------------ Add Items ------------------------------- #
-def add_item():
-    global item_to_cart
-    while True:
-        item_to_cart = input(
-            "Add name of item to cart, to finsh, write 'done': ").lower()  # "avocado"
-        if re.fullmatch('[a-zA-Z ]+', item_to_cart):
-            print(f'check_info_item: {item_to_cart}')
-            print(f'check_info_item: {type(item_to_cart)}')
-            return item_to_cart
-            # pass
-        else:
-            print("not a valid item.")
-            # break
-
-
-def add_quantity():
-    global quantity_to_cart
-    while True:
-        quantity_to_cart = input("Quantity: ")  # 5
-        print(f'check_info_quantity: {quantity_to_cart}')
-        print(f'check_info_quantity: {type(quantity_to_cart)}')
-        if quantity_to_cart.isnumeric():
-            quantity_to_cart = int(quantity_to_cart)
-            print(f'check_info_quantity_after_int: {quantity_to_cart}')
-            print(f'check_info_quantity_after_int: {type(quantity_to_cart)}')
-            return quantity_to_cart
-        else:
-            print("not a valid number.")
-
-
 # ------------------------------ Total ------------------------------- #
 
 while True:
-
     new_item = add_item()
     print(new_item)
+
     if new_item == "done":
         break
     else:
@@ -164,23 +106,7 @@ while True:
         print(new_quantity)
         update_cart(new_item, new_quantity)
 
-# z = check_info_quantity(y)
-# print(x, type(x))
-# print(y, type(y))
-
-
 print(product_prices)
 print(cart_items)
 total = calculate_cart_total(cart_items, product_prices)
 print(total)  # Expected: 2*3.0 + 1*7.0 + 3*5.0 = 6 + 7 + 15 = 28.0
-
-"""
-
-
-Bonus ideas:
-------------
-- Make the cart interactive: ask the user to input items one by one in a loop.
-- Handle products not found in the price list.
-- Allow the user to type 'done' to finish the cart.
-- Display a summary of what the user ordered with a final total.
-"""
