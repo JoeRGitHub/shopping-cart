@@ -66,7 +66,7 @@ def update_cart(item_to_cart, quantity_to_cart):
 
     print(product_prices)
     print(cart_items)
-    add_more()
+    # add_more()
     # add_more = input("Do you wish to add more items ('Yes')? ").lower()
 
     # if add_more == "yes":
@@ -77,14 +77,14 @@ def update_cart(item_to_cart, quantity_to_cart):
     #     break
 
 
-def add_more():
-    add_more = input("Do you wish to add more items ('Yes')? ").lower()
-    if add_more == "yes":
-        add_item()
-        add_quantity()
-        update_cart(item_to_cart, quantity_to_cart)
-    else:
-        print("Closing Cart")
+# def add_more():
+#     add_more = input("Do you wish to add more items ('Yes')? ").lower()
+#     if add_more == "yes":
+#         add_item()
+#         add_quantity()
+#         update_cart(item_to_cart, quantity_to_cart)
+#     else:
+#         print("Closing Cart")
 # ------------------------- Running Calculation ------------------------------- #
 
 
@@ -124,7 +124,8 @@ cart_items = {
 def add_item():
     global item_to_cart
     while True:
-        item_to_cart = input("Add name of item to cart: ").lower()  # "avocado"
+        item_to_cart = input(
+            "Add name of item to cart, to finsh, write 'done': ").lower()  # "avocado"
         if re.fullmatch('[a-zA-Z ]+', item_to_cart):
             print(f'check_info_item: {item_to_cart}')
             print(f'check_info_item: {type(item_to_cart)}')
@@ -151,15 +152,22 @@ def add_quantity():
 
 
 # ------------------------------ Total ------------------------------- #
-new_item = add_item()
-print(new_item)
 
-new_quantity = add_quantity()
-print(new_quantity)
+while True:
+
+    new_item = add_item()
+    print(new_item)
+    if new_item == "done":
+        break
+    else:
+        new_quantity = add_quantity()
+        print(new_quantity)
+        update_cart(new_item, new_quantity)
+
 # z = check_info_quantity(y)
 # print(x, type(x))
 # print(y, type(y))
-update_cart(new_item, new_quantity)
+
 
 print(product_prices)
 print(cart_items)
